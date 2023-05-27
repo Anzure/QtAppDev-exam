@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QList>
+#include <QAbstractItemView>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,9 +20,11 @@ public:
 
 private slots:
     void onAddItemButtonClicked();
-    void onResetButtonClicked();
+    void onClearButtonClicked();
+    void onItemListChange();
 
 private:
     Ui::MainWindow *ui;
 };
+
 #endif

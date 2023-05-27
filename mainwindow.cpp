@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     ui->itemList->addItem("Python");
+    onItemListChange();
 
     ui->comboBox->addItem("C++");
     ui->comboBox->addItem("C#");
@@ -16,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox->addItem("PHP");
 
     connect(ui->addItemButton, &QPushButton::clicked, this, &MainWindow::onAddItemButtonClicked);
-    connect(ui->resetButton, &QPushButton::clicked, this, &MainWindow::onResetButtonClicked);
+    connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::onClearButtonClicked);
 
 }
 
@@ -30,11 +31,19 @@ void MainWindow::onAddItemButtonClicked()
     QComboBox* comboBox = ui->comboBox;
     QString text = comboBox->currentText();
     ui->itemList->addItem(text);
-    qInfo() << "Added " << text << " to list";
+    onItemListChange();
+    qInfo() << "Added " + text + " to list";
 }
 
-void MainWindow::onResetButtonClicked()
+void MainWindow::onClearButtonClicked()
 {
     ui->itemList->clear();
+    onItemListChange();
     qInfo() << "Cleared item list.";
+}
+
+void MainWindow::onItemListChange()
+{
+    int listSize = ui->itemList->count();
+    statusBar()->showMessage(QString::number(listSize) + " items");
 }

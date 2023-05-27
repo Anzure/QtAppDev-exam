@@ -47,7 +47,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="resetButton">
+   <widget class="QPushButton" name="clearButton">
     <property name="geometry">
      <rect>
       <x>420</x>
@@ -57,7 +57,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Reset</string>
+     <string>Clear</string>
     </property>
    </widget>
   </widget>
