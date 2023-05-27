@@ -1,16 +1,23 @@
 #ifndef TEXTDIALOG_H
 #define TEXTDIALOG_H
 
-#include <QWidget>
+#include <QDialog>
+#include <QTextEdit>
+#include <QDialogButtonBox>
 
-class textdialog : public QWidget
+class TextDialog : public QDialog
 {
     Q_OBJECT
+
 public:
-    explicit textdialog(QWidget *parent = nullptr);
+    TextDialog(QWidget *parent = nullptr);
 
-signals:
+private slots:
+    void accept();
 
+private:
+    QTextEdit *textEdit;
+    QDialogButtonBox *buttonBox;
 };
 
-#endif // TEXTDIALOG_H
+#endif
