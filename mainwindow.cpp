@@ -41,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(addNoteAction, &QAction::triggered, this, &MainWindow::showTextDialog);
     connect(openFileAction, &QAction::triggered, this, &MainWindow::showFileContents);
+
+    loadFromFile();
 }
 
 MainWindow::~MainWindow()
@@ -48,6 +50,8 @@ MainWindow::~MainWindow()
     // Lukker/fjerner hovedvinduet
     delete ui;
     qInfo() << "Destructed main window";
+
+    saveToFile();
 }
 
 void MainWindow::onAddItemButtonClicked()
@@ -112,22 +116,31 @@ void MainWindow::showFileContents()
 
 void MainWindow::saveToFile()
 {
+    // Ignorer lagring hvis I/O feil
     QFile file("list.txt");
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "Cannot save file:" << file.errorString();
         return;
+    }
 
+    // Lagre alle elementene til filen
     QTextStream out(&file);
     for (int i = 0; i < ui->itemList->count(); ++i)
         out << ui->itemList->item(i)->text() << "\n";
+    file.close();
 }
 
 void MainWindow::loadFromFile()
 {
+    // Ignorer hvis fil ikke finnes
     QFile file("list.txt");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
+    // Les hver linje og legg til liste
+    ui->itemList->clear();
     QTextStream in(&file);
     while (!in.atEnd())
         ui->itemList->addItem(in.readLine());
+    file.close();
 }

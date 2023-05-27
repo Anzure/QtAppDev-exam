@@ -8,9 +8,11 @@ TextDialog::TextDialog(QWidget *parent) : QDialog(parent)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
 
+    // Laster inn UI tekstfelt
     textEdit = new QTextEdit(this);
     layout->addWidget(textEdit);
 
+    // Konfigurerer OK / Cancel
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &TextDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
