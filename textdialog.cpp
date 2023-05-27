@@ -1,6 +1,7 @@
 #include "textdialog.h"
 #include <QVBoxLayout>
 #include <QFile>
+#include <QDir>
 #include <QMessageBox>
 
 TextDialog::TextDialog(QWidget *parent) : QDialog(parent)
@@ -19,16 +20,20 @@ TextDialog::TextDialog(QWidget *parent) : QDialog(parent)
 void TextDialog::accept()
 {
     QString content = textEdit->toPlainText();
-    QMessageBox::information(this, "Text", content);
-    QDialog::accept();
 
-    QString fileName = "C:\\Temp\\Note.txt";
-
-    QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    // Stopp ved I/O feil
+    QFile file("note.txt");
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qCritical() << "Cannot save file:" << file.errorString();
         return;
+    }
 
+    // Lagre tekst til fil
     QTextStream out(&file);
     out << content;
+    file.close();
 
+    // Åpne meldingsboks
+    QMessageBox::information(this, "Saved", content);
+    QDialog::accept();
 }

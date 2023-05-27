@@ -4,6 +4,7 @@
 #include <QMenuBar>
 #include <QAction>
 #include <QFile>
+#include <QDir>
 #include <QTextStream>
 #include <QMessageBox>
 
@@ -92,21 +93,21 @@ void MainWindow::showTextDialog()
 
 void MainWindow::showFileContents()
 {
-    QString fileName = "C:\\Temp\\Note.txt";
-
     // Stopp hvis feil med fil
-    QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        qCritical() << "Cannot read file:" << file.fileName();
+    QFile file("note.txt");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qCritical() << "Cannot open file:" << file.errorString();
         return;
+    }
 
     // Hent tekst innhold i fil
-    QTextStream inputStream(&file);
-    QString text = inputStream.readAll();
+    QTextStream in(&file);
+    QString fileContent = in.readAll();
+    file.close();
 
     // Logg tekst og åpne popup
-    qDebug() << "File content:" << fileName;
-    QMessageBox::information(this, "File Contents", text);
+    qDebug() << "File content:" << fileContent;
+    QMessageBox::information(this, "Note", fileContent);
 }
 
 void MainWindow::saveToFile()
