@@ -17,17 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
     textDialog = new TextDialog(this);
     qInfo() << "Constructed main window";
 
-    // Klargjør dropdown combobox
-    ui->comboBox->addItem("C++");
-    ui->comboBox->addItem("C#");
-    ui->comboBox->addItem("Java");
-    ui->comboBox->addItem("Python");
-    ui->comboBox->addItem("PHP");
-
-    // Klargjør standard liste
-    ui->itemList->addItem("Python");
-    onItemListChange();
-
     // Metodene kalles ved endringer
     connect(ui->addItemButton, &QPushButton::clicked, this, &MainWindow::onAddItemButtonClicked);
     connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::onClearButtonClicked);
@@ -42,7 +31,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(addNoteAction, &QAction::triggered, this, &MainWindow::showTextDialog);
     connect(openFileAction, &QAction::triggered, this, &MainWindow::showFileContents);
 
+    // Klargjør dropdown combobox
+    ui->comboBox->addItem("C++");
+    ui->comboBox->addItem("C#");
+    ui->comboBox->addItem("Java");
+    ui->comboBox->addItem("Python");
+    ui->comboBox->addItem("PHP");
+
+    // Klargjør standard liste
+    ui->itemList->addItem("Python");
     loadFromFile();
+    onItemListChange();
 }
 
 MainWindow::~MainWindow()
@@ -50,7 +49,6 @@ MainWindow::~MainWindow()
     // Lukker/fjerner hovedvinduet
     delete ui;
     qInfo() << "Destructed main window";
-
     saveToFile();
 }
 
